@@ -41,10 +41,13 @@ module WillPaginate
     protected
     
       def page_number(page)
+        @text = @template.will_paginate_translate(:page_prefix) { 'Page' }
+        @title = "#{@text} #{page.to_s}"
+
         unless page == current_page
-          link(page, page, :rel => rel_value(page))
+          link(page, page, :rel => rel_value(page), :title => @title, "aria-label" => @title)
         else
-          tag(:em, page, :class => 'current')
+          link(page, page, :rel => rel_value(page), :title => @title, "aria-label" => @title, "aria-current" => 'page', :class => 'current')
         end
       end
       
